@@ -18,5 +18,5 @@ jobs:
     - name: Build & Push Image
       run: |
         echo "${{ secrets.DOCKERPW }}" | docker login -u "thedrobe" --password-stdin
-        docker image build -t thedrobe/traefik-ssl-certificate-exporter:arm64v8 --build-arg ARCH=arm64v8/ .
+        docker build -t thedrobe/traefik-ssl-certificate-exporter:arm64v8 --build-arg ARCH=arm64v8/ .
         docker push thedrobe/traefik-ssl-certificate-exporter:arm64v8
