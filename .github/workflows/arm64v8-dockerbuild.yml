@@ -1,4 +1,4 @@
-name: Docker Build/Publish Image on arm64v8:  
+name: Docker Build/Publish Image on arm64v8
 on:
   push:    
     branches: [ master ]
