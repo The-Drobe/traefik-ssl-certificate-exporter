@@ -1,0 +1,21 @@
+
+name: arm64v8-dockerbuild
+
+on:
+  push:
+   branches: [ master ]
+  pull_request:
+    branches: [ master ]
+      
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        echo "${{ secrets.DOCKERPW }}" | docker login -u "thedrobe" --password-stdin
+        docker image build -t thedrobe/traefik-ssl-certificate-exporter:arm64v8 .
+        docker push thedrobe/traefik-ssl-certificate-exporter:arm64v8
