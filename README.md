@@ -9,6 +9,8 @@
 </div>
 <br/>
 
+This is fork of rafi0101/traefik-ssl-certificate-exporter. There is no changes apart from github actions which have been setup to build docker images for arm and amd64.
+  
 Go tool to export traefik ssl certificates
 
 The Docker container exports periodically the traefik ssl certificates and make them available in the ```certs/``` folder
