@@ -1,22 +1,37 @@
+name: Docker Build/Publish Image on arm64v8:  
 
-name: arm64v8-dockerbuild
+# https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee
 
-on:
-  workflow_dispatch:
-  push:
-   branches: [ master ]
-  pull_request:
-    branches: [ master ]
-      
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Build & Push Image
-      run: |
-        echo "${{ secrets.DOCKERPW }}" | docker login -u "thedrobe" --password-stdin
-        docker build -t thedrobe/traefik-ssl-certificate-exporter:arm64v8 --build-arg ARCH=arm64v8/ .
-        docker push thedrobe/traefik-ssl-certificate-exporter:arm64v8
+push:    
+  branches: [ master ]  
+jobs:   
+  build:    
+    runs-on: ubuntu-18.04    
+  env:      
+    DOCKER_REGISTRY: docker.io     
+    DOCKER_IMAGE: thedrobe/traefik-ssl-certificate-exporter     
+    DOCKER_USERNAME: thedrobe
+    DOCKER_PASSWORD: ${{ secrets.DOCKERPW }}  
+    DOCKER_TARGET_PLATFORM: inux/arm64/v8 
+  steps:    
+    - name: Checkout the code       
+      uses: actions/checkout@v1              
+    - name: Set up Docker Buildx      
+      uses: crazy-max/ghaction-docker-buildx@v1      
+        with:        
+          version: latest        
+    - name: Prepare      
+      if: success()      
+      id: prepare      
+      run: |        
+        echo ::set-output name=docker_platform::${DOCKER_TARGET_PLATFORM}        
+        echo ::set-output name=docker_image::${DOCKER_REGISTRY}/${DOCKER_IMAGE}        
+        echo ::set-output name=version::${GITHUB_RUN_NUMBER}        
+    - name: Docker Login      
+      if: success()      
+        run: |        
+          echo "${DOCKER_PASSWORD}" | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin              
+    - name: Run Buildx (push image)      
+      if: success()      
+        run: |        
+          docker buildx build \        --platform ${{ steps.prepare.outputs.docker_platform }} \        --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }} \        --file ./Dockerfile \        --output type=image,push=true .
