@@ -17,5 +17,5 @@ jobs:
     - name: Build & Push Image
       run: |
         echo "${{ secrets.DOCKERPW }}" | docker login -u "thedrobe" --password-stdin
-        docker image build -t thedrobe/infrared-gui:latest .
-        docker push thedrobe/infrared-gui:latest
+        docker image build -t thedrobe/traefik-ssl-certificate-exporter:amd64 .
+        docker push thedrobe/traefik-ssl-certificate-exporter:amd64
