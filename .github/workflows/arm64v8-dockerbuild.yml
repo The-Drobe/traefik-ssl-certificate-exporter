@@ -3,7 +3,9 @@ name: Docker Build/Publish Image on arm64v8
 # https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee
 on:
   push:    
-    branches: [ master ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 jobs:   
   build:    

@@ -4,7 +4,9 @@ name: Docker Build/Publish Image on latest
 # https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/
 on:
   push:    
-    branches: [ master ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 jobs:   
   build:    
