@@ -5,13 +5,13 @@ on:
   workflow_dispatch:
 jobs:   
   build:    
-    runs-on: ubuntu-18.04    
+    runs-on: ubuntu-latest   
     env:      
       DOCKER_REGISTRY: docker.io     
       DOCKER_IMAGE: thedrobe/traefik-ssl-certificate-exporter     
       DOCKER_USERNAME: thedrobe
       DOCKER_PASSWORD: ${{ secrets.DOCKERPW }}  
-      DOCKER_TARGET_PLATFORM: inux/arm64/v8 
+      DOCKER_TARGET_PLATFORM: linux/arm64/v8 
 
     steps:    
       - name: Checkout the code       
