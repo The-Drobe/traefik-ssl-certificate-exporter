@@ -1,5 +1,5 @@
 
-name: Python application
+name: amd64-dockerbuild
 
 on:
   push:
